@@ -11,9 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Annadata">
-        <activity android:name=".UserProfile"/>
-
-        <activity android:name=".MainActivity"
+        <activity android:name=".UpdateProfile"></activity>
+        <activity android:name=".UserProfile" />
+        <activity
+            android:name=".MainActivity"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,10 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegistrationActivity"
-            android:noHistory="true"/>
-        <activity android:name=".LoginActivity"
-            android:noHistory="true"/>
+        <activity
+            android:name=".RegistrationActivity"
+            android:noHistory="true" />
+        <activity
+            android:name=".LoginActivity"
+            android:noHistory="true" />
     </application>
 
 </manifest>

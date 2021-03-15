@@ -60,10 +60,13 @@ public class UserProfile extends AppCompatActivity {
                  * Utility : Launch Update profile activity.
                  * Output : None
                  */
-                
+                //Initialize Intent
+                Intent intent = new Intent(getApplicationContext(), UpdateProfile.class);
+                startActivity(intent);
+                //Destroy current profile.
+                UserProfile.this.finish();
             }
         });
-
         //Capture remember me value from previous intent.
         Intent intent = getIntent();
         remember_me = intent.getBooleanExtra("remember_me", false);
@@ -71,7 +74,6 @@ public class UserProfile extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
         /*
          * Input : None
          * Utility: On pressing back button, sign out user if requested.
