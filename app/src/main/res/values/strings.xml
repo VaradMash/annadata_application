@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Annadata</string>
+    <string name="app_title">अन्नदाता</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="not_registered_sign_up">Not Registered? Sign Up</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="email">Email</string>
+    <string name="already_registered_sign_in">Already Registered? Sign In</string>
+    <string name="my_profile">My Profile</string>
+    <string name="donate">Donate</string>
+    <string name="request">Request</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="user_profile">User Profile</string>
+    <string name="exit_message">Are you sure you want to Exit?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+</resources>

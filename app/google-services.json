@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "226023836150",
+    "project_id": "annadata-6edb3",
+    "storage_bucket": "annadata-6edb3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226023836150:android:c19c7eb70ef767be71dfd7",
+        "android_client_info": {
+          "package_name": "com.example.annadata"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "226023836150-bmqk4ifceqjokplhuat5pctarh9jnhj8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDf9mySf-eV9PR0sNDdOSGczBp2s0wQHgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "226023836150-bmqk4ifceqjokplhuat5pctarh9jnhj8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
