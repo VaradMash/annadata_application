@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Annadata</string>
     <string name="app_title">अन्नदाता</string>
+    <string name="tag_line">अन्नदाता सुखी भव</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="username">Username</string>
@@ -27,4 +28,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="update">Update</string>
+    <string name="successful_donations">Successful Donations</string>
 </resources>
