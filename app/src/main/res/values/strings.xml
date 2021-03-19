@@ -29,4 +29,6 @@
     <string name="no">No</string>
     <string name="update">Update</string>
     <string name="successful_donations">Successful Donations</string>
+    <string name="my_donations">My Donations</string>
+    <string name="new_donation">New donation</string>
 </resources>

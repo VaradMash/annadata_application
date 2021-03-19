@@ -67,6 +67,24 @@ public class UserProfile extends AppCompatActivity {
                 UserProfile.this.finish();
             }
         });
+
+        btnDonate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*
+                 * Input : None
+                 * Utility : Launch donations page.
+                 * Output : Donation Activity launch.
+                 */
+                //Initialize intent.
+                Intent intent = new Intent(getApplicationContext(), DonationActivity.class);
+                intent.putExtra("remember_me", remember_me);
+                startActivity(intent);
+                //Destroy current intent.
+                UserProfile.this.finish();
+            }
+        });
+
         //Capture remember me value from previous intent.
         Intent intent = getIntent();
         remember_me = intent.getBooleanExtra("remember_me", false);
