@@ -30,5 +30,11 @@
     <string name="update">Update</string>
     <string name="successful_donations">Successful Donations</string>
     <string name="my_donations">My Donations</string>
-    <string name="new_donation">New donation</string>
+    <string name="new_donation">New Donation</string>
+    <string name="number_of_people">Number of People</string>
+    <string name="post_donation">Post Donation</string>
+    <string name="veg">Veg</string>
+    <string name="content">Content</string>
+    <string name="region">Region(City)</string>
+    <string name="non_veg">Non Veg</string>
 </resources>

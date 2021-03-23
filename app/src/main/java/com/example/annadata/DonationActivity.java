@@ -1,6 +1,7 @@
 package com.example.annadata;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ public class DonationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donation);
+        //Disable dark mode.
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         //Capture remember_me value from previous intent.
         Intent intent = getIntent();
@@ -34,6 +37,12 @@ public class DonationActivity extends AppCompatActivity {
                  * Utility : Launch new donation page.
                  * Output : New Donation activity launch.
                  */
+                //Initialize intent
+                Intent intent = new Intent(getApplicationContext(), NewDonationActivity.class);
+                intent.putExtra("remember_me", remember_me);
+                startActivity(intent);
+                //Destroy current activity.
+                DonationActivity.this.finish();
             }
         });
     }
