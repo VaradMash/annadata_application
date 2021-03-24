@@ -24,6 +24,10 @@ public class UserProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
+        //Capture remember me value from previous intent.
+        Intent intent = getIntent();
+        remember_me = intent.getBooleanExtra("remember_me", false);
+
         //Toast.makeText(UserProfile.this, "Welcome " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
 
         //Initialize buttons.
@@ -84,10 +88,6 @@ public class UserProfile extends AppCompatActivity {
                 UserProfile.this.finish();
             }
         });
-
-        //Capture remember me value from previous intent.
-        Intent intent = getIntent();
-        remember_me = intent.getBooleanExtra("remember_me", false);
     }
 
     @Override
@@ -115,8 +115,14 @@ public class UserProfile extends AppCompatActivity {
                     FirebaseAuth.getInstance().signOut();
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
+                    UserProfile.this.finish();
                 }
-                UserProfile.this.finish();
+                else
+                {
+                    UserProfile.this.finish();
+                    return;
+                }
+
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {

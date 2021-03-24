@@ -92,18 +92,6 @@ public class LoginActivity extends AppCompatActivity
                                     }
                                 }
                             });
-
-                    remember_me_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            /*
-                             * Input : Event of state change of switch.
-                             * utility : Alter value of remember me field.
-                             * Output : None.
-                             */
-                            remember_me = isChecked;
-                        }
-                    });
                 }
             }
         });
@@ -119,6 +107,25 @@ public class LoginActivity extends AppCompatActivity
                 Intent intent = new Intent(LoginActivity.this, com.example.annadata.RegistrationActivity.class);
                 startActivity(intent);
                 LoginActivity.this.finish();
+            }
+        });
+
+        remember_me_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                /*
+                 * Input : Event of state change of switch.
+                 * utility : Alter value of remember me field.
+                 * Output : None.
+                 */
+                if (isChecked)
+                {
+                    remember_me = true;
+                }
+                else
+                {
+                    remember_me = false;
+                }
             }
         });
     }

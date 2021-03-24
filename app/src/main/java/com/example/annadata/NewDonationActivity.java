@@ -17,10 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class NewDonationActivity extends AppCompatActivity {
@@ -29,6 +27,7 @@ public class NewDonationActivity extends AppCompatActivity {
     private Button btnPostDonation;
     private EditText etNumberOfPeople, etContent, etRegion;
     private ProgressBar pbNewDonation;
+    private CollectionReference orderCollection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,30 +39,32 @@ public class NewDonationActivity extends AppCompatActivity {
         etNumberOfPeople = (EditText)findViewById(R.id.etNumberOfPeople);
         etContent = (EditText)findViewById(R.id.etContent);
         etRegion = (EditText)findViewById(R.id.etRegion);
-        pbNewDonation = (ProgressBar)findViewById(R.id.pbDonations);
+        pbNewDonation = (ProgressBar)findViewById(R.id.pbNewDonation);
+        //Initialize orders end point.
+        orderCollection = FirebaseFirestore.getInstance().collection("orders");
 
         //Capture remember_me value from previous activity.
         Intent intent = getIntent();
         remember_me = intent.getBooleanExtra("remember_me", true);
 
-        //Set on click listeners.
         btnPostDonation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /*
-                 * Input : None
-                 * Utility : Post donation on database after validations.
+                 * Input : Order details.
+                 * Utility : Post order details on database.
                  * Output : None.
                  */
-                 int number_of_people = Integer.parseInt(etNumberOfPeople.getText().toString());
-                 String content = etContent.getText().toString();
-                 String region = etRegion.getText().toString();
-                 //Validate input and variables.
-                if (number_of_people == 0 || content.isEmpty() || region.isEmpty())
+                //Acquire field values.
+                String number_of_people = etNumberOfPeople.getText().toString();
+                String content = etContent.getText().toString();
+                String region = etRegion.getText().toString();
+                //Validate entries in form.
+                if (number_of_people.isEmpty() || content.isEmpty() || region.isEmpty() || number_of_people.equals("0"))
                 {
-                    if (number_of_people == 0)
+                    if (number_of_people.isEmpty())
                     {
-                        etNumberOfPeople.setError("Enter valid number !");
+                        etNumberOfPeople.setError("Field cannot be empty !");
                         etNumberOfPeople.requestFocus();
                     }
                     if (content.isEmpty())
@@ -73,40 +74,41 @@ public class NewDonationActivity extends AppCompatActivity {
                     }
                     if (region.isEmpty())
                     {
-                        etRegion.setError("Region cannot be empty");
+                        etRegion.setError("Region cannot be empty !");
                         etRegion.requestFocus();
+                    }
+                    if (number_of_people.equals("0"))
+                    {
+                        etNumberOfPeople.setError("Enter valid number !");
+                        etNumberOfPeople.requestFocus();
                     }
                 }
                 else
                 {
+                    //Get User ID for foreign key in order collection.
+                    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     pbNewDonation.setVisibility(View.VISIBLE);
-                    //Get User fields as foreign key for Orders.
-                    String user_uid = FirebaseAuth.getInstance().getUid();
-                    //Post data to FireStore.
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("number_of_people", number_of_people);
-                    map.put("region", region);
-                    map.put("donor", user_uid);
-                    map.put("content", content);
-                    //Generate Order ID.
-                    //String order_post_time = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss", Locale.US).format(new Date());
-                    /*
-                    CollectionReference orderCollection = FirebaseFirestore.getInstance().collection("orders");
-                    orderCollection.document(order_post_time + "_" + user_uid).set(map)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful())
-                            {
-                                Toast.makeText(getApplicationContext(), "Donation posted !", Toast.LENGTH_SHORT).show();
-                            }
-                            else
-                            {
-                                Toast.makeText(getApplicationContext(), "An error occured !", Toast.LENGTH_SHORT).show();
-                            }
-                            pbNewDonation.setVisibility(View.GONE);
-                        }
-                    });*/
+                    //Initialize new Map object for posting data.
+                    Map<String, Object> dataMap = new HashMap<>();
+                    dataMap.put("number_of_people", Integer.parseInt(number_of_people));
+                    dataMap.put("content", content);
+                    dataMap.put("region", region);
+                    dataMap.put("donor_id", uid);
+                    orderCollection.document("donation_" + uid).set(dataMap)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful())
+                                    {
+                                        Toast.makeText(getApplicationContext(), "Donation posted !", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(getApplicationContext(), "Error occurred !", Toast.LENGTH_SHORT).show();
+                                    }
+                                    pbNewDonation.setVisibility(View.GONE);
+                                }
+                            });
                 }
             }
         });
