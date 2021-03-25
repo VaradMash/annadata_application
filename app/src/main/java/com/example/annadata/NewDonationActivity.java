@@ -18,7 +18,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class NewDonationActivity extends AppCompatActivity {
@@ -85,16 +88,18 @@ public class NewDonationActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    pbNewDonation.setVisibility(View.VISIBLE);
                     //Get User ID for foreign key in order collection.
                     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    pbNewDonation.setVisibility(View.VISIBLE);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH:mm:ss", Locale.US);
+                    String donation_time = sdf.format(new Date());
                     //Initialize new Map object for posting data.
                     Map<String, Object> dataMap = new HashMap<>();
                     dataMap.put("number_of_people", Integer.parseInt(number_of_people));
                     dataMap.put("content", content);
                     dataMap.put("region", region);
                     dataMap.put("donor_id", uid);
-                    orderCollection.document("donation_" + uid).set(dataMap)
+                    orderCollection.document(donation_time + "_" + uid).set(dataMap)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

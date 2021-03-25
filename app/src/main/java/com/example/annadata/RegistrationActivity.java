@@ -53,8 +53,8 @@ import java.util.Map;
         etConfirmPassword = (EditText)findViewById(R.id.etConfirmPassword);
         SignUpProgressBar = (ProgressBar)findViewById(R.id.SignUpProgressBar);
         SignUpProgressBar.setVisibility(View.GONE);
-        btnRegister = findViewById(R.id.btnRegister);
-        tvSignIn = findViewById(R.id.tvSignIn);
+        btnRegister = (Button) findViewById(R.id.btnRegister);
+        tvSignIn = (TextView) findViewById(R.id.tvSignIn);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
