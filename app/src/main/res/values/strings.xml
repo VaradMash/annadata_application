@@ -37,4 +37,8 @@
     <string name="content">Content</string>
     <string name="region">Region(City)</string>
     <string name="non_veg">Non Veg</string>
+    <string name="mark_as_completed">Mark as Completed</string>
+    <string name="edit">Edit</string>
+    <string name="post_time">Post Time :</string>
+    <string name="post_date">Post Date :</string>
 </resources>

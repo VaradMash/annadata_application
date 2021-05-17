@@ -1,18 +1,48 @@
 package com.example.annadata;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.widget.NestedScrollView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import io.perfmark.Tag;
 
 public class DonationActivity extends AppCompatActivity {
 
+    private static final String TAG = "Vector Mike" ;
     private FloatingActionButton btnNewDonation;
     private boolean remember_me;
+    private CollectionReference orderCollection;
+    private ProgressBar pbDonations;
+    private ListView donationScrollView;
+    private Activity context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +57,8 @@ public class DonationActivity extends AppCompatActivity {
 
         //Initialize widgets.
         btnNewDonation = (FloatingActionButton)findViewById(R.id.btnNewDonation);
+        pbDonations = (ProgressBar)findViewById(R.id.pbDonations);
+        donationScrollView = (ListView)findViewById(R.id.donationScrollView);
 
         //Set on click listeners.
         btnNewDonation.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +77,48 @@ public class DonationActivity extends AppCompatActivity {
                 DonationActivity.this.finish();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        /*
+         * Input : None
+         * Utility : Get all donations made by current user and add to list.
+         * Output : None
+         */
+        pbDonations.setVisibility(View.VISIBLE);
+        context = this;
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        orderCollection = FirebaseFirestore.getInstance().collection("orders");
+        List<Map<String, Object>> donationList = new ArrayList<Map<String, Object>>();
+        orderCollection
+                .whereEqualTo("donor_id", uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful())
+                        {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult())
+                            {
+                                donationList.add(documentSnapshot.getData());
+                                if(donationList.isEmpty()) {
+                                    Toast.makeText(getApplicationContext(), "No donations found !", Toast.LENGTH_SHORT).show();
+                                }
+                                DonationList adapter = new DonationList(context  , donationList);
+                                donationScrollView.setAdapter(adapter);
+                                pbDonations.setVisibility(View.GONE);
+                            }
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), " An error occurred ", Toast.LENGTH_SHORT).show();
+                            pbDonations.setVisibility(View.GONE);
+                        }
+
+                    }
+                });
+
     }
 
     @Override

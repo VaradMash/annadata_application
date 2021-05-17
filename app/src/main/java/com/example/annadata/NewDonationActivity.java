@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -17,11 +18,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class NewDonationActivity extends AppCompatActivity {
@@ -31,6 +30,7 @@ public class NewDonationActivity extends AppCompatActivity {
     private EditText etNumberOfPeople, etContent, etRegion;
     private ProgressBar pbNewDonation;
     private CollectionReference orderCollection;
+    private Switch switchVeg, switchNonVeg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,8 @@ public class NewDonationActivity extends AppCompatActivity {
         etContent = (EditText)findViewById(R.id.etContent);
         etRegion = (EditText)findViewById(R.id.etRegion);
         pbNewDonation = (ProgressBar)findViewById(R.id.pbNewDonation);
+        switchVeg = (Switch)findViewById(R.id.switchVeg);
+        switchNonVeg = (Switch)findViewById(R.id.switchNonVeg);
         //Initialize orders end point.
         orderCollection = FirebaseFirestore.getInstance().collection("orders");
 
@@ -62,8 +64,10 @@ public class NewDonationActivity extends AppCompatActivity {
                 String number_of_people = etNumberOfPeople.getText().toString();
                 String content = etContent.getText().toString();
                 String region = etRegion.getText().toString();
+                boolean veg = switchVeg.isChecked();
+                boolean nonVeg = switchNonVeg.isChecked();
                 //Validate entries in form.
-                if (number_of_people.isEmpty() || content.isEmpty() || region.isEmpty() || number_of_people.equals("0"))
+                if (number_of_people.isEmpty() || content.isEmpty() || region.isEmpty() || number_of_people.equals("0") || (!veg && !nonVeg))
                 {
                     if (number_of_people.isEmpty())
                     {
@@ -85,20 +89,31 @@ public class NewDonationActivity extends AppCompatActivity {
                         etNumberOfPeople.setError("Enter valid number !");
                         etNumberOfPeople.requestFocus();
                     }
+                    if (!veg && !nonVeg)
+                    {
+                        Toast.makeText(getApplicationContext(), "Please select appropriate food category(veg or non veg).", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else
                 {
                     pbNewDonation.setVisibility(View.VISIBLE);
                     //Get User ID for foreign key in order collection.
                     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH:mm:ss", Locale.US);
-                    String donation_time = sdf.format(new Date());
+                    LocalDateTime time = LocalDateTime.now();
+                    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy.HH:mm:ss");
+                    String donation_time = dateTimeFormatter.format(time);
                     //Initialize new Map object for posting data.
                     Map<String, Object> dataMap = new HashMap<>();
                     dataMap.put("number_of_people", Integer.parseInt(number_of_people));
                     dataMap.put("content", content);
                     dataMap.put("region", region);
                     dataMap.put("donor_id", uid);
+                    dataMap.put("veg_content", veg);
+                    dataMap.put("non_veg_content", nonVeg);
+                    dataMap.put("donation_date", donation_time.substring(0, 10));
+                    dataMap.put("donation_time", donation_time.substring(11));
+                    dataMap.put("is_active", true);
+                    dataMap.put("donation_id", donation_time + "_" + uid);
                     orderCollection.document(donation_time + "_" + uid).set(dataMap)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -106,6 +121,12 @@ public class NewDonationActivity extends AppCompatActivity {
                                     if (task.isSuccessful())
                                     {
                                         Toast.makeText(getApplicationContext(), "Donation posted !", Toast.LENGTH_SHORT).show();
+                                        //Initialize Intent
+                                        Intent intent = new Intent(getApplicationContext(), DonationActivity.class);
+                                        intent.putExtra("remember_me", remember_me);
+                                        startActivity(intent);
+                                        //Destroy current activity.
+                                        NewDonationActivity.this.finish();
                                     }
                                     else
                                     {
