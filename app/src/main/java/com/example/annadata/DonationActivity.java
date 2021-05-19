@@ -94,6 +94,7 @@ public class DonationActivity extends AppCompatActivity {
         List<Map<String, Object>> donationList = new ArrayList<Map<String, Object>>();
         orderCollection
                 .whereEqualTo("donor_id", uid)
+                .whereEqualTo("is_active", true)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -103,13 +104,13 @@ public class DonationActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot documentSnapshot : task.getResult())
                             {
                                 donationList.add(documentSnapshot.getData());
-                                if(donationList.isEmpty()) {
-                                    Toast.makeText(getApplicationContext(), "No donations found !", Toast.LENGTH_SHORT).show();
-                                }
-                                DonationList adapter = new DonationList(context  , donationList);
-                                donationScrollView.setAdapter(adapter);
-                                pbDonations.setVisibility(View.GONE);
                             }
+                            if(donationList.isEmpty()) {
+                                Toast.makeText(getApplicationContext(), "No donations found !", Toast.LENGTH_SHORT).show();
+                            }
+                            DonationList adapter = new DonationList(context  , donationList);
+                            donationScrollView.setAdapter(adapter);
+                            pbDonations.setVisibility(View.GONE);
                         }
                         else {
                             Toast.makeText(getApplicationContext(), " An error occurred ", Toast.LENGTH_SHORT).show();

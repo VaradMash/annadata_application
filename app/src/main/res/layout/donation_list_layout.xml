@@ -39,6 +39,7 @@
 
 
         <Button
+            android:id="@+id/btnMarkAsComplete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -48,6 +49,7 @@
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/btnEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
