@@ -41,4 +41,5 @@
     <string name="edit">Edit</string>
     <string name="post_time">Post Time :</string>
     <string name="post_date">Post Date :</string>
+    <string name="edit_donation">Edit Donation</string>
 </resources>

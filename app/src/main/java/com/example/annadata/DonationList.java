@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.model.Document;
@@ -31,9 +32,9 @@ import java.util.Map;
 public class DonationList extends ArrayAdapter<Map<String, Object>> {
     private Activity context;
     private List<Map<String, Object>> donationList;
-    long successful_orders;
+    private boolean remember_me;
 
-    public DonationList(Activity context, List<Map<String, Object>> donationList)
+    public DonationList(Activity context, List<Map<String, Object>> donationList, boolean remember_me)
     {
         /*
          * Constructor for single element in assignment list
@@ -41,6 +42,7 @@ public class DonationList extends ArrayAdapter<Map<String, Object>> {
         super(context, R.layout.donation_list_layout, donationList);
         this.context = context;
         this.donationList = donationList;
+        this.remember_me = remember_me;
     }
 
     @NonNull
@@ -69,7 +71,10 @@ public class DonationList extends ArrayAdapter<Map<String, Object>> {
                  * Output : Activity Launch
                  */
                 //Initialize intent.
-                Intent intent = new Intent();
+                Intent intent = new Intent(context, EditDonation.class);
+                intent.putExtra("donation_id", map.get("donation_id").toString());
+                intent.putExtra("remember_me", remember_me);
+                context.startActivity(intent);
                 //Destroy current activity.
                 context.finish();
             }
@@ -102,22 +107,10 @@ public class DonationList extends ArrayAdapter<Map<String, Object>> {
                          * Increment count of successful orders.
                          */
                         context.findViewById(R.id.pbDonations).setVisibility(View.VISIBLE);
-                        /*
+
                         DocumentReference user_document = FirebaseFirestore.getInstance().collection("users").document(String.valueOf(map.get("donor_id")));
-                        user_document.addSnapshotListener(new EventListener<DocumentSnapshot>(){
-
-                            @Override
-                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                /*
-                                 * Get User details.
-
-                                Map<String, Object> user_map = value.getData();
-                                successful_orders = (long) user_map.get("successful_orders");
-                            }
-                        });
-                        successful_orders += 1;
-                        //Update value.
-                        user_document.update("successful_orders",successful_orders);*/
+                        //Increment successful order count.
+                        user_document.update("successful_orders", FieldValue.increment(1));
                         //Get reference to order document.
                         DocumentReference donation_document = FirebaseFirestore.getInstance().collection("orders").document(String.valueOf(map.get("donation_id")));
                         //Update isActive value of donation entry.

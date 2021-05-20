@@ -44,6 +44,15 @@ public class DonationActivity extends AppCompatActivity {
     private ListView donationScrollView;
     private Activity context;
 
+    public boolean getRememberMe()
+    {
+        /*
+         * Getter method for remember_me field.
+         */
+        return remember_me;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +117,7 @@ public class DonationActivity extends AppCompatActivity {
                             if(donationList.isEmpty()) {
                                 Toast.makeText(getApplicationContext(), "No donations found !", Toast.LENGTH_SHORT).show();
                             }
-                            DonationList adapter = new DonationList(context  , donationList);
+                            DonationList adapter = new DonationList(context  , donationList, getRememberMe());
                             donationScrollView.setAdapter(adapter);
                             pbDonations.setVisibility(View.GONE);
                         }
