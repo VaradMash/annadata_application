@@ -37,7 +37,7 @@ public class EditDonation extends AppCompatActivity {
         //Capture values.
         remember_me = intent.getBooleanExtra("remember_me", true);
         donation_id = intent.getStringExtra("donation_id");
-        donation_document = FirebaseFirestore.getInstance().collection("orders").document(donation_id);
+        donation_document = FirebaseFirestore.getInstance().collection("donations").document(donation_id);
 
         //Initializing widgets;
         etEditContent = (EditText)findViewById(R.id.etEditContent);

@@ -37,7 +37,7 @@ public class DonationList extends ArrayAdapter<Map<String, Object>> {
     public DonationList(Activity context, List<Map<String, Object>> donationList, boolean remember_me)
     {
         /*
-         * Constructor for single element in assignment list
+         * Constructor for single element in donation list.
          */
         super(context, R.layout.donation_list_layout, donationList);
         this.context = context;
@@ -112,7 +112,7 @@ public class DonationList extends ArrayAdapter<Map<String, Object>> {
                         //Increment successful order count.
                         user_document.update("successful_orders", FieldValue.increment(1));
                         //Get reference to order document.
-                        DocumentReference donation_document = FirebaseFirestore.getInstance().collection("orders").document(String.valueOf(map.get("donation_id")));
+                        DocumentReference donation_document = FirebaseFirestore.getInstance().collection("donations").document(String.valueOf(map.get("donation_id")));
                         //Update isActive value of donation entry.
                         donation_document.update("is_active", false);
                         //Recreate context activity.

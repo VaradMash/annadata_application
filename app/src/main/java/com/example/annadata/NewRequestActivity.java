@@ -23,71 +23,63 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NewDonationActivity extends AppCompatActivity {
-
+public class NewRequestActivity extends AppCompatActivity {
     private boolean remember_me;
-    private Button btnPostDonation;
-    private EditText etNumberOfPeople, etContent, etRegion;
-    private ProgressBar pbNewDonation;
-    private CollectionReference donationCollection;
-    private Switch switchVeg, switchNonVeg;
+    private Button btnPostRequest;
+    private EditText etRequestNumberOfPeople, etRequestRegion;
+    private ProgressBar pbNewRequest;
+    private CollectionReference requestCollection;
+    private Switch switchRequestVeg, switchRequestNonVeg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_donation);
+        setContentView(R.layout.activity_new_request);
 
-        //Initialize widgets.
-        btnPostDonation = (Button)findViewById(R.id.btnPostDonation);
-        etNumberOfPeople = (EditText)findViewById(R.id.etNumberOfPeople);
-        etContent = (EditText)findViewById(R.id.etContent);
-        etRegion = (EditText)findViewById(R.id.etRegion);
-        pbNewDonation = (ProgressBar)findViewById(R.id.pbNewDonation);
-        switchVeg = (Switch)findViewById(R.id.switchVeg);
-        switchNonVeg = (Switch)findViewById(R.id.switchNonVeg);
-        //Initialize orders end point.
-        donationCollection = FirebaseFirestore.getInstance().collection("donations");
-
-        //Capture remember_me value from previous activity.
         Intent intent = getIntent();
         remember_me = intent.getBooleanExtra("remember_me", true);
 
-        btnPostDonation.setOnClickListener(new View.OnClickListener() {
+        //Initialize widgets.
+        btnPostRequest = (Button)findViewById(R.id.btnPostRequest);
+        etRequestNumberOfPeople = (EditText)findViewById(R.id.etRequestNumberOfPeople);
+        etRequestRegion = (EditText)findViewById(R.id.etRequestRegion);
+        pbNewRequest = (ProgressBar)findViewById(R.id.pbNewRequest);
+        switchRequestVeg = (Switch)findViewById(R.id.switchRequestVeg);
+        switchRequestNonVeg = (Switch)findViewById(R.id.switchRequestNonVeg);
+        //Initialize orders end point.
+        requestCollection = FirebaseFirestore.getInstance().collection("requests");
+
+        //Set behaviour for post request button.
+        btnPostRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /*
-                 * Input : Order details.
-                 * Utility : Post order details on database.
-                 * Output : None.
+                 * Input : Request details.
+                 * Utility : Post request details on database.
+                 * Output :None.
                  */
                 //Acquire field values.
-                String number_of_people = etNumberOfPeople.getText().toString();
-                String content = etContent.getText().toString();
-                String region = etRegion.getText().toString();
-                boolean veg = switchVeg.isChecked();
-                boolean nonVeg = switchNonVeg.isChecked();
+                String number_of_people = etRequestNumberOfPeople.getText().toString();
+                String region = etRequestRegion.getText().toString();
+                boolean veg = switchRequestVeg.isChecked();
+                boolean nonVeg = switchRequestNonVeg.isChecked();
                 //Validate entries in form.
-                if (number_of_people.isEmpty() || content.isEmpty() || region.isEmpty() || number_of_people.equals("0") || (!veg && !nonVeg))
+                if (number_of_people.isEmpty()  || region.isEmpty() || number_of_people.equals("0") || (!veg && !nonVeg))
                 {
                     if (number_of_people.isEmpty())
                     {
-                        etNumberOfPeople.setError("Field cannot be empty !");
-                        etNumberOfPeople.requestFocus();
-                    }
-                    if (content.isEmpty())
-                    {
-                        etContent.setError("Content cannot be empty !");
-                        etContent.requestFocus();
+                        etRequestNumberOfPeople.setError("Field cannot be empty !");
+                        etRequestNumberOfPeople.requestFocus();
                     }
                     if (region.isEmpty())
                     {
-                        etRegion.setError("Region cannot be empty !");
-                        etRegion.requestFocus();
+                        etRequestRegion.setError("Region cannot be empty !");
+                        etRequestRegion.requestFocus();
                     }
                     if (number_of_people.equals("0"))
                     {
-                        etNumberOfPeople.setError("Enter valid number !");
-                        etNumberOfPeople.requestFocus();
+                        etRequestNumberOfPeople.setError("Enter valid number !");
+                        etRequestNumberOfPeople.requestFocus();
                     }
                     if (!veg && !nonVeg)
                     {
@@ -96,43 +88,39 @@ public class NewDonationActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    pbNewDonation.setVisibility(View.VISIBLE);
+                    pbNewRequest.setVisibility(View.VISIBLE);
                     //Get User ID for foreign key in order collection.
                     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     LocalDateTime time = LocalDateTime.now();
                     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy.HH:mm:ss");
-                    String donation_time = dateTimeFormatter.format(time);
+                    String request_time = dateTimeFormatter.format(time);
                     //Initialize new Map object for posting data.
                     Map<String, Object> dataMap = new HashMap<>();
                     dataMap.put("number_of_people", Integer.parseInt(number_of_people));
-                    dataMap.put("content", content);
                     dataMap.put("region", region);
-                    dataMap.put("donor_id", uid);
+                    dataMap.put("request_person_id", uid);
                     dataMap.put("veg_content", veg);
                     dataMap.put("non_veg_content", nonVeg);
-                    dataMap.put("donation_date", donation_time.substring(0, 10));
-                    dataMap.put("donation_time", donation_time.substring(11));
+                    dataMap.put("request_date", request_time.substring(0, 10));
+                    dataMap.put("request_time", request_time.substring(11));
                     dataMap.put("is_active", true);
-                    dataMap.put("donation_id", donation_time + "_" + uid);
-                    donationCollection.document(donation_time + "_" + uid).set(dataMap)
+                    dataMap.put("donation_id", request_time + "_" + uid);
+                    requestCollection.document(request_time + "_" + uid).set(dataMap)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful())
-                                    {
+                                    if (task.isSuccessful()) {
                                         Toast.makeText(getApplicationContext(), "Donation posted !", Toast.LENGTH_SHORT).show();
                                         //Initialize Intent
                                         Intent intent = new Intent(getApplicationContext(), DonationActivity.class);
                                         intent.putExtra("remember_me", remember_me);
                                         startActivity(intent);
                                         //Destroy current activity.
-                                        NewDonationActivity.this.finish();
-                                    }
-                                    else
-                                    {
+                                        NewRequestActivity.this.finish();
+                                    } else {
                                         Toast.makeText(getApplicationContext(), "Error occurred !", Toast.LENGTH_SHORT).show();
                                     }
-                                    pbNewDonation.setVisibility(View.GONE);
+                                    pbNewRequest.setVisibility(View.GONE);
                                 }
                             });
                 }
@@ -144,15 +132,15 @@ public class NewDonationActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         /*
-         * Input : Back button press
-         * Utility : Launch donations page.
-         * Output : Donation Activity Launch.
+         * Input : None
+         * Utility : Launch requests activity on back button pressed.
+         * Output : Launch request activity.
          */
-        //Initialize Intent
-        Intent intent = new Intent(getApplicationContext(), DonationActivity.class);
+        //Initialize intent
+        Intent intent = new Intent(getApplicationContext(), RequestActivity.class);
         intent.putExtra("remember_me", remember_me);
         startActivity(intent);
-        //Destroy current activity.
-        NewDonationActivity.this.finish();
+        //Destroy current activity
+        NewRequestActivity.this.finish();
     }
 }

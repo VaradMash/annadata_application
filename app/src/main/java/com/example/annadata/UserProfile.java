@@ -88,6 +88,23 @@ public class UserProfile extends AppCompatActivity {
                 UserProfile.this.finish();
             }
         });
+
+        btnRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*
+                 * Input : None
+                 * Utility : Launch request page.
+                 * Output : Request Activity launch.
+                 */
+                //Initialize intent.
+                Intent intent = new Intent(getApplicationContext(), RequestActivity.class);
+                intent.putExtra("remember_me", remember_me);
+                startActivity(intent);
+                //Destroy current activity
+                UserProfile.this.finish();
+            }
+        });
     }
 
     @Override

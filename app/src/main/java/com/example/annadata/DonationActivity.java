@@ -1,15 +1,12 @@
 package com.example.annadata;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.widget.NestedScrollView;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -20,26 +17,20 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.perfmark.Tag;
 
 public class DonationActivity extends AppCompatActivity {
 
-    private static final String TAG = "Vector Mike" ;
     private FloatingActionButton btnNewDonation;
     private boolean remember_me;
-    private CollectionReference orderCollection;
+    private CollectionReference donationCollection;
     private ProgressBar pbDonations;
     private ListView donationScrollView;
     private Activity context;
@@ -93,15 +84,16 @@ public class DonationActivity extends AppCompatActivity {
         super.onStart();
         /*
          * Input : None
-         * Utility : Get all donations made by current user and add to list.
+         * Utility : Get all donations made by current user and render to activity.
          * Output : None
          */
         pbDonations.setVisibility(View.VISIBLE);
         context = this;
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        orderCollection = FirebaseFirestore.getInstance().collection("orders");
+        donationCollection = FirebaseFirestore.getInstance().collection("donations");
         List<Map<String, Object>> donationList = new ArrayList<Map<String, Object>>();
-        orderCollection
+        //Get Donations
+        donationCollection
                 .whereEqualTo("donor_id", uid)
                 .whereEqualTo("is_active", true)
                 .get()
@@ -128,7 +120,6 @@ public class DonationActivity extends AppCompatActivity {
 
                     }
                 });
-
     }
 
     @Override

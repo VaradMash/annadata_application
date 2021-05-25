@@ -42,4 +42,7 @@
     <string name="post_time">Post Time :</string>
     <string name="post_date">Post Date :</string>
     <string name="edit_donation">Edit Donation</string>
+    <string name="my_requests">My Requests</string>
+    <string name="view_donations">View Donations</string>
+    <string name="new_request">New Request</string>
 </resources>

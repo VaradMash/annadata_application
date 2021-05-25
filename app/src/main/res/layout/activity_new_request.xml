@@ -7,10 +7,10 @@
     tools:context=".NewDonationActivity">
 
     <TextView
-        android:id="@+id/tvNewDonation"
+        android:id="@+id/tvNewRequest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/new_donation"
+        android:text="@string/new_request"
         android:textSize="30sp"
         android:textStyle="bold"
         android:gravity="center_horizontal"
@@ -26,7 +26,7 @@
 
 
     <EditText
-        android:id="@+id/etNumberOfPeople"
+        android:id="@+id/etRequestNumberOfPeople"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
@@ -59,7 +59,7 @@
 
 
     <Switch
-        android:id="@+id/switchVeg"
+        android:id="@+id/switchRequestVeg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -72,7 +72,7 @@
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <Switch
-        android:id="@+id/switchNonVeg"
+        android:id="@+id/switchRequestNonVeg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -99,24 +99,7 @@
         app:layout_constraintVertical_bias="0.35" />
 
     <EditText
-        android:id="@+id/etContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:hint="@string/content"
-        android:autofillHints="@string/content"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
-
-    <EditText
-        android:id="@+id/etRegion"
+        android:id="@+id/etRequestRegion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
@@ -130,10 +113,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.55" />
+        app:layout_constraintVertical_bias="0.45" />
 
     <ProgressBar
-        android:id="@+id/pbNewDonation"
+        android:id="@+id/pbNewRequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -145,7 +128,7 @@
 
 
     <Button
-        android:id="@+id/btnPostDonation"
+        android:id="@+id/btnPostRequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/post_donation"
