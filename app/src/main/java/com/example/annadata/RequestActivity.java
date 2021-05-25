@@ -67,6 +67,22 @@ public class RequestActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        /*
+         * Input : None.
+         * Utility : Launch User profile
+         * Output : Launch user profile activity.
+         */
+        //Initialize intent.
+        Intent intent = new Intent(getApplicationContext(), UserProfile.class);
+        intent.putExtra("remember_me", remember_me);
+        startActivity(intent);
+        //Destroy current activity.
+        RequestActivity.this.finish();
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         /*
@@ -79,7 +95,7 @@ public class RequestActivity extends AppCompatActivity {
         //Initialize collection reference.
         requestCollection = FirebaseFirestore.getInstance().collection("requests");
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        context = this;
+        context = RequestActivity.this;
         List<Map<String, Object>> requestList = new ArrayList<Map<String, Object>>();
         //Get relevant documents.
         requestCollection

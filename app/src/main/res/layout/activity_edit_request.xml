@@ -7,10 +7,10 @@
     tools:context=".NewDonationActivity">
 
     <TextView
-        android:id="@+id/tvNewRequest"
+        android:id="@+id/tvEditRequest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/new_request"
+        android:text="@string/edit_request"
         android:textSize="30sp"
         android:textStyle="bold"
         android:gravity="center_horizontal"
@@ -26,7 +26,7 @@
 
 
     <EditText
-        android:id="@+id/etRequestNumberOfPeople"
+        android:id="@+id/etEditRequestNumberOfPeople"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
@@ -59,7 +59,7 @@
 
 
     <Switch
-        android:id="@+id/switchRequestVeg"
+        android:id="@+id/switchEditRequestVeg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -72,7 +72,7 @@
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <Switch
-        android:id="@+id/switchRequestNonVeg"
+        android:id="@+id/switchEditRequestNonVeg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -99,7 +99,7 @@
         app:layout_constraintVertical_bias="0.35" />
 
     <EditText
-        android:id="@+id/etRequestRegion"
+        android:id="@+id/etEditRequestRegion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
@@ -116,7 +116,7 @@
         app:layout_constraintVertical_bias="0.45" />
 
     <ProgressBar
-        android:id="@+id/pbNewRequest"
+        android:id="@+id/pbEditRequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -128,10 +128,10 @@
 
 
     <Button
-        android:id="@+id/btnPostRequest"
+        android:id="@+id/btnUpdateRequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/post_request"
+        android:text="@string/edit_request"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

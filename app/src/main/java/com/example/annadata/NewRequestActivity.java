@@ -104,7 +104,7 @@ public class NewRequestActivity extends AppCompatActivity {
                     dataMap.put("request_date", request_time.substring(0, 10));
                     dataMap.put("request_time", request_time.substring(11));
                     dataMap.put("is_active", true);
-                    dataMap.put("donation_id", request_time + "_" + uid);
+                    dataMap.put("request_id", request_time + "_" + uid);
                     requestCollection.document(request_time + "_" + uid).set(dataMap)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -112,7 +112,7 @@ public class NewRequestActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(getApplicationContext(), "Donation posted !", Toast.LENGTH_SHORT).show();
                                         //Initialize Intent
-                                        Intent intent = new Intent(getApplicationContext(), DonationActivity.class);
+                                        Intent intent = new Intent(getApplicationContext(), RequestActivity.class);
                                         intent.putExtra("remember_me", remember_me);
                                         startActivity(intent);
                                         //Destroy current activity.

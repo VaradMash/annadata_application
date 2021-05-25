@@ -45,4 +45,6 @@
     <string name="my_requests">My Requests</string>
     <string name="view_donations">View Donations</string>
     <string name="new_request">New Request</string>
+    <string name="edit_request">Edit Request</string>
+    <string name="post_request">Post Request</string>
 </resources>
