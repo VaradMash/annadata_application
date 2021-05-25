@@ -85,7 +85,7 @@ public class EditRequest extends AppCompatActivity {
                     //Show progress bar
                     pbEditRequest.setVisibility(View.VISIBLE);
                     //Update entries in document.
-                    request_document.update("number_of_people", number_of_people);
+                    request_document.update("number_of_people", Integer.parseInt(number_of_people));
                     request_document.update("region", region);
                     request_document.update("veg_content", veg);
                     request_document.update("non_veg_content", nonVeg);

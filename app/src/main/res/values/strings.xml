@@ -47,4 +47,7 @@
     <string name="new_request">New Request</string>
     <string name="edit_request">Edit Request</string>
     <string name="post_request">Post Request</string>
+    <string name="donor">Donor : </string>
+    <string name="date">Date : </string>
+    <string name="view">View</string>
 </resources>
