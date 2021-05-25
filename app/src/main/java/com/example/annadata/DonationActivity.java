@@ -111,12 +111,11 @@ public class DonationActivity extends AppCompatActivity {
                             }
                             DonationList adapter = new DonationList(context  , donationList, getRememberMe());
                             donationScrollView.setAdapter(adapter);
-                            pbDonations.setVisibility(View.GONE);
                         }
                         else {
                             Toast.makeText(getApplicationContext(), " An error occurred ", Toast.LENGTH_SHORT).show();
-                            pbDonations.setVisibility(View.GONE);
                         }
+                        pbDonations.setVisibility(View.GONE);
 
                     }
                 });

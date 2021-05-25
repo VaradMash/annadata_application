@@ -121,7 +121,18 @@ public class RequestList extends ArrayAdapter<Map<String, Object>> {
         btnViewDonations.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                /*
+                 * Input : None
+                 * Utility : Navigate to View Donations activity.
+                 * Output : View Donations activity launch.
+                 */
+                //Initialize intent.
+                Intent intent = new Intent(context, ViewDonations.class);
+                intent.putExtra("remember_me", remember_me);
+                intent.putExtra("request_id", map.get("request_id").toString());
+                context.startActivity(intent);
+                //Destroy current activity.
+                context.finish();
             }
         });
 

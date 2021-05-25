@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Annadata">
-        <activity android:name=".EditRequest"></activity>
+        <activity android:name=".ViewDonations"></activity>
+        <activity android:name=".EditRequest" />
         <activity android:name=".NewRequestActivity" />
         <activity android:name=".RequestActivity" />
         <activity android:name=".EditDonation" />
