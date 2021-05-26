@@ -127,7 +127,7 @@ public class ViewDonations extends AppCompatActivity {
                                         }
                                         else
                                         {
-                                            RelevantDonationList adapter = new RelevantDonationList(ViewDonations.this,  relevantDonationList, remember_me);
+                                            RelevantDonationList adapter = new RelevantDonationList(ViewDonations.this,  relevantDonationList, remember_me, request_id);
                                             viewDonationsListView.setAdapter(adapter);
                                         }
                                     }

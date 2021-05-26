@@ -2,6 +2,7 @@ package com.example.annadata;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +28,9 @@ public class RelevantDonationList extends ArrayAdapter<Map<String, Object>> {
     private Activity context;
     private List<Map<String, Object>> relevantDonationList;
     private boolean remember_me;
-    private String donor_name;
+    private String donor_name, request_id;
 
-    public RelevantDonationList(Activity context, List<Map<String, Object>> relevantDonationList, boolean remember_me)
+    public RelevantDonationList(Activity context, List<Map<String, Object>> relevantDonationList, boolean remember_me, String request_id)
     {
         /*
          * Constructor for single element in donation list.
@@ -38,6 +39,7 @@ public class RelevantDonationList extends ArrayAdapter<Map<String, Object>> {
         this.context = context;
         this.relevantDonationList = relevantDonationList;
         this.remember_me = remember_me;
+        this.request_id = request_id;
     }
 
     @NonNull
@@ -73,8 +75,13 @@ public class RelevantDonationList extends ArrayAdapter<Map<String, Object>> {
                  * Output : Launch View donation activity.
                  */
                 //Initialize intent.
+                Intent intent = new Intent(context, ViewDonationDetails.class);
+                intent.putExtra("remember_me", remember_me);
+                intent.putExtra("donation_id", map.get("donation_id").toString());
+                intent.putExtra("request_id", request_id);
+                context.startActivity(intent);
                 //destroy current activity.
-                //context.finish();
+                context.finish();
             }
         });
         return relevantDonationListView;

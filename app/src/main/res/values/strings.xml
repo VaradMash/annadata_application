@@ -50,4 +50,11 @@
     <string name="donor">Donor : </string>
     <string name="date">Date : </string>
     <string name="view">View</string>
+    <string name="view_details">View Details</string>
+    <string name="donation_details">Donation Details</string>
+    <string name="time">Time :</string>
+    <string name="user_details">User Details</string>
+    <string name="name">Name :</string>
+    <string name="successful_orders">Successful Orders :</string>
+    <string name="call">Call</string>
 </resources>
