@@ -88,15 +88,6 @@ public class ViewDonations extends AppCompatActivity {
         request_document = FirebaseFirestore.getInstance().collection("requests").document(request_id);
         donation_collection = FirebaseFirestore.getInstance().collection("donations");
         //Get Request Document data.
-        /*
-        request_document.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                number_of_people = value.getLong("number_of_people");
-                veg_content = value.getBoolean("veg_content");
-                non_veg_content = value.getBoolean("non_veg_content");
-            }
-        });*/
         request_document.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -107,45 +98,50 @@ public class ViewDonations extends AppCompatActivity {
                     veg_content = document.getBoolean("veg_content");
                     non_veg_content = document.getBoolean("non_veg_content");
                     region = document.getString("region");
+                    //Get Relevant donations and render to screen using custom card view adapters.
+                    donation_collection
+                            .whereEqualTo("veg_content", veg_content)
+                            .whereEqualTo("non_veg_content", non_veg_content)
+                            .whereGreaterThanOrEqualTo("number_of_people", number_of_people)
+                            .whereEqualTo("region", region)
+                            .whereEqualTo("is_active", true)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful())
+                                    {
+                                        List<Map<String, Object>> relevantDonationList = new ArrayList<>();
+                                        for(QueryDocumentSnapshot document : task.getResult())
+                                        {
+                                            Map<String, Object> donation_document = document.getData();
+                                            Log.d("Data Point :", String.valueOf(document.getData()));
+                                            if(!donation_document.get("donor_id").equals(request_person_id)) {
+                                                relevantDonationList.add(document.getData());
+                                            }
+                                        }
+                                        //Toast.makeText(getApplicationContext(), "Completed : " + i, Toast.LENGTH_SHORT).show();
+                                        if(relevantDonationList.isEmpty())
+                                        {
+                                            Toast.makeText(getApplicationContext(), " No relevant donations found ! ", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else
+                                        {
+                                            RelevantDonationList adapter = new RelevantDonationList(ViewDonations.this,  relevantDonationList, remember_me);
+                                            viewDonationsListView.setAdapter(adapter);
+                                        }
+                                    }
+                                    else {
+                                        Toast.makeText(getApplicationContext(), task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), task.getException().toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        //Get Relevant donations and render to screen using custom card view adapters.
-        donation_collection
-                .whereEqualTo("veg_content", veg_content)
-                .whereEqualTo("non_veg_content", non_veg_content)
-                .whereGreaterThanOrEqualTo("number_of_people", number_of_people)
-                .whereEqualTo("region", region)
-                .whereEqualTo("is_active", true)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful())
-                        {
-                            List<Map<String, Object>> relevantDonationList = new ArrayList<>();
-                            for(QueryDocumentSnapshot document : task.getResult())
-                            {
-                                Map<String, Object> donation_document = document.getData();
-                                if(!donation_document.get("donor_id").equals(request_person_id)) {
-                                    Log.d("Data Point :", String.valueOf(document.getData()));
-                                    relevantDonationList.add(document.getData());
-                                }
-                            }
-                            //Toast.makeText(getApplicationContext(), "Completed : " + i, Toast.LENGTH_SHORT).show();
-                            if(relevantDonationList.isEmpty())
-                            {
-                                Toast.makeText(getApplicationContext(), " No relevant donations found ! ", Toast.LENGTH_SHORT).show();
-                            }
-                            RelevantDonationList adapter = new RelevantDonationList(ViewDonations.this,  relevantDonationList, remember_me);
-                            viewDonationsListView.setAdapter(adapter);
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(), task.getException().toString(), Toast.LENGTH_SHORT).show();
-                            Log.d("Task exception message", task.getException().toString());
-                        }
-                    }
-                });
         pbViewDonations.setVisibility(View.GONE);
     }
 }
