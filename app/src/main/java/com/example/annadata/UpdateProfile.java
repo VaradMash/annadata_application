@@ -1,6 +1,5 @@
 package com.example.annadata;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -14,8 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -23,8 +20,6 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class UpdateProfile extends AppCompatActivity {
 
@@ -34,7 +29,6 @@ public class UpdateProfile extends AppCompatActivity {
     Button btnUpdateDetails;
     ProgressBar pbUpdateProfile;
     boolean remember_me;
-    private int successful_orders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,26 +70,10 @@ public class UpdateProfile extends AppCompatActivity {
                 else
                 {
                     pbUpdateProfile.setVisibility(View.VISIBLE);
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("username", username);
-                    map.put("contact_number", contact_number);
-                    map.put("successful_orders", successful_orders);
-                    map.put("email", email);
-                    userDocument.set(map)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful())
-                                    {
-                                        Toast.makeText(getApplicationContext(), "User details updated !", Toast.LENGTH_SHORT).show();
-                                    }
-                                    else
-                                    {
-                                        Toast.makeText(getApplicationContext(), "User details could not be updated !", Toast.LENGTH_SHORT).show();
-                                    }
-                                    pbUpdateProfile.setVisibility(View.GONE);
-                                }
-                            });
+                    userDocument.update("username", username);
+                    userDocument.update("contact_number", contact_number);
+                    Toast.makeText(getApplicationContext(), "User details updated !", Toast.LENGTH_SHORT).show();
+                    pbUpdateProfile.setVisibility(View.GONE);
                 }
             }
         });

@@ -89,7 +89,8 @@ public class ViewDonationDetails extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value2, @Nullable FirebaseFirestoreException error) {
                         tvName.setText(value2.getString("username"));
-                        tvSuccessfulOrders.setText(String.valueOf(value2.getLong("successful_orders")));
+                        String successful_orders = "Successful donations : " + String.valueOf(value2.getLong("successful_orders"));
+                        tvSuccessfulOrders.setText(successful_orders);
                         String contact_number = value2.getString("contact_number");
                         String email = value2.getString("email");
 
